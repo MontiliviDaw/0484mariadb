@@ -1,3 +1,46 @@
+# Construcció i execució del contenidor
+
+Si no volem configurar res especiual i volem treballar directament amb aquest repositori cal seguir les següents comandes:
+
+```bash title="Creació de la imatge"
+docker build -t damdaw-db-i:latest .
+```
+
+```bash title="Execució del contenidor la primera vegada"
+docker run -d --name damdaw-db -p 8080:80 -p 3307:3306 damdaw-db-i:latest
+```
+
+Hem obert els ports
+
+* Accés **web** pel port `8080`
+
+* Accés al **servidor de bases de dades** pel port `3307`
+
+A partir d'aquí, sempre que es vulgui treballar amb el servidor de bases de dades, haurem d'executar la comanda `docker start`
+
+```bash title="Execució del contenidor a partir de la segona vegada"
+docker start damdaw-db
+```
+
+Per aturar el contenidor
+
+```bash title="Aturem el contenidor"
+docker stop damdaw-db
+```
+
+Per accedir a la base de dades
+
+* des del *phpmyadmin* ho farem a partir de l'enllaç següent:
+
+    [http://localhost:8080/phpmyadmin](http://localhost:8080/phpmyadmin)
+
+* des de la consola xecutant la comanda
+
+    ```bash
+    docker exec -ti damdaw-db mysql -u usuari -pusuari
+    ```
+
+
 # Com Construir i Executar
 
 Creeu els fitxers: Assegureu-vos de tenir:
@@ -16,7 +59,7 @@ Opcionalment podem
 
 ## Construïu la imatge:
 
-Es crea una imatge anomenada `damdaw-db-i`
+En l'exemple es crea una imatge anomenada `damdaw-db-i`
 
 ```bash
 docker build -t damdaw-db-i:latest .
@@ -24,7 +67,7 @@ docker build -t damdaw-db-i:latest .
 
 # Executeu el contenidor:
 
-Es crea un contenidor anomenat `damdaw-db` a partir de la imatge `damdaw-db-i`
+En l'exemple es crea un contenidor anomenat `damdaw-db` a partir de la imatge `damdaw-db-i`
 
 ```bash
 docker run -d --name damdaw-db -p 8080:80 -p 3307:3306 damdaw-db-i:latest

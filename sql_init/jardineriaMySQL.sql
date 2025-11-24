@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS `jardineria`;
+
 use jardineria;
 
 -- 

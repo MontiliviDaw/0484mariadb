@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS `hospital`;
 use hospital;
 
 ###*************************************************************************************
@@ -12,7 +13,6 @@ use hospital;
 ###     SALA      PK-> sala_codi, sala_hospital_codi 
 ###               FK-> sala_hospital_codi
 ###     PLANTILLA PK-> plantilla_empleat_num
-###               FK-> plantilla_hospital_codi
 ###               FK-> plantilla_sala_codi,plantilla_hospital_codi
 ###     DOCTOR    PK-> doctor_codi
 ###               FK-> doctor_hospital_codi
@@ -203,11 +203,6 @@ CREATE TABLE plantilla
    plantilla_salari        DECIMAL(11,2));
 
 ALTER TABLE plantilla
-ADD CONSTRAINT fk_plantilla_hospital_codi
-FOREIGN KEY (plantilla_hospital_codi)
-REFERENCES hospital(hospital_codi);
-
-ALTER TABLE plantilla
 ADD CONSTRAINT fk_plantilla_sala_codi
 FOREIGN KEY (plantilla_sala_codi,plantilla_hospital_codi)
 REFERENCES sala(sala_codi,sala_hospital_codi);
@@ -216,25 +211,25 @@ REFERENCES sala(sala_codi,sala_hospital_codi);
 ###   Insercció de dades a la taula PLANTILLA
 ###*****************************************
 INSERT INTO  plantilla VALUES 
-(13,6,3754,'Diaz B.','Infermera','T',226200);
+(13,6,3754,'Diaz B.','Infermera','T',ROUND(1.25 * 226200 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(13,6,3106,'Hernandez J.','Infermer','T',275000);
+(13,6,3106,'Hernandez J.','Infermer','T',ROUND(1.25 * 275000 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(18,4,6357,'Karplus W.','Intern','T',337900);
+(18,4,6357,'Karplus W.','Intern','T',ROUND(1.25 * 337900 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(22,6,1009,'Higueras D.','Infermera','T',200500);
+(22,6,1009,'Higueras D.','Infermera','T',ROUND(1.25 * 200500 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(22,6,8422,'Bocina G.','Infermer','M',183800);
+(22,6,8422,'Bocina G.','Infermer','M',ROUND(1.25 * 183800 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(22,2,9901,'Nunez C.','Intern','M',221000);
+(22,2,9901,'Nunez C.','Intern','M',ROUND(1.25 * 221000 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(22,1,6065,'Rivera G.','Infermera','N',162600);
-INSERT INTO  plantilla 
-VALUES (22,1,7379,'Carlos R.','Infermera','T',221900);
+(22,1,6065,'Rivera G.','Infermera','N',ROUND(1.25 * 162600 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(45,4,1280,'Amigo R.','Intern','N',221000);
+(22,1,7379,'Carlos R.','Infermera','T',ROUND(1.25 * 221900 / 166.386, 2));
 INSERT INTO  plantilla VALUES 
-(45,1,8526,'Frank H.','Infermera','T',252200);
+(45,4,1280,'Amigo R.','Intern','N',ROUND(1.25 * 221000 / 166.386, 2));
+INSERT INTO  plantilla VALUES 
+(45,1,8526,'Frank H.','Infermera','T',ROUND(1.25 * 252200 / 166.386, 2));
 
 ###***************************************
 ###   Definició estructura taula DOCTOR

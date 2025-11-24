@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS `empresa`;
 use empresa;
 
 -- Guardem les dades de la connexió actual
