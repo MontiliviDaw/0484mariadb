@@ -1,0 +1,6 @@
+[mysqld]
+
+[mariadbd]
+sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES
+lower_case_table_names=1
+bind-address = 0.0.0.0
