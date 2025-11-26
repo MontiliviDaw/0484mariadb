@@ -32,7 +32,7 @@ Per accedir a la base de dades
 
 * des del *phpmyadmin* ho farem a partir de l'enllaç següent:
 
-    [http://localhost:8080/phpmyadmin](http://localhost:8080/phpmyadmin)
+    [http://localhost:8080/](http://localhost:8080/)
 
 * des de la consola xecutant la comanda
 
