@@ -1,6 +1,14 @@
+# Servidor de Bases de dades MariaDB i phpMyAdmin
+
+Aquest repositori, mitjançant *Docker*, crea un contenidor amb un servidor de Bases de Dades *MariaDB* amb accés web amb l'eina *phpmyadmin* instal·lada al mateix contenidor.
+
+Exportem el port del servidor de base de dades (*`3306`*) i el del servidor web (*`80`*) per poder accedir a la base de dades des d'un navegador o des de qualsevol aplicació client. En l'exemple, es mapegen sobre els ports *`3307`* i *`8080`* respectivament per no interferir en altres servidors que tinguem iniciats.
+
+També ens permet afegir scripts `.sql` i `.sh` per crear les nostres bases de dades inicials o per altres tasques pertinents.
+
 # Construcció i execució del contenidor
 
-Si no volem configurar res especiual i volem treballar directament amb aquest repositori cal seguir les següents comandes:
+Si no volem configurar res especial i volem treballar directament amb aquest repositori cal seguir les següents comandes:
 
 ```bash title="Creació de la imatge"
 docker build -t damdaw-db-i:latest .
@@ -34,12 +42,11 @@ Per accedir a la base de dades
 
     [http://localhost:8080/](http://localhost:8080/)
 
-* des de la consola xecutant la comanda
+* des de la consola executant la comanda
 
     ```bash
     docker exec -ti damdaw-db mysql -u usuari -pusuari
     ```
-
 
 # Com Construir i Executar
 
@@ -47,7 +54,7 @@ Creeu els fitxers: Assegureu-vos de tenir:
 
 * el fitxer `Dockerfile`,
 
-* la carpeta `sql_init` (amb els vostres fitxers SQL) 
+* la carpeta `sql_init` (amb els vostres fitxers `.sql` i `.sh`) 
 
 * el fitxer `docker-entrypoint.sh`
 
@@ -65,7 +72,7 @@ En l'exemple es crea una imatge anomenada `damdaw-db-i`
 docker build -t damdaw-db-i:latest .
 ```
 
-# Executeu el contenidor:
+## Executeu el contenidor:
 
 En l'exemple es crea un contenidor anomenat `damdaw-db` a partir de la imatge `damdaw-db-i`
 
@@ -73,11 +80,11 @@ En l'exemple es crea un contenidor anomenat `damdaw-db` a partir de la imatge `d
 docker run -d --name damdaw-db -p 8080:80 -p 3307:3306 damdaw-db-i:latest
 ```
 
-* S'exposa el port web a `8080` de la màquina host.
+* S'exposa el port web al `8080` de la màquina host.
 
-* S'exposa el port de MariaDB a `3307` de la màquina host.
+* S'exposa el port de MariaDB al `3307` de la màquina host.
 
-En cas necessari podem executar el contenidor modificant els paràmetres del Dockerfile:
+En cas necessari podem executar el contenidor modificant els paràmetres del Dockerfile o bé passant els nous valors en el moment de la creació del contenidor:
 
 * `MARIADB_ROOT_PASSWORD`="damDAW12"
 
@@ -89,11 +96,11 @@ En cas necessari podem executar el contenidor modificant els paràmetres del Doc
 
 * `MARIADB_PASSWORD`="usuari"
     
-    Serà el password de l'usuari que es crea
+    Password de l'usuari que es crea
 
 * `MARIADB_DATABASE`="usuari"
 
-    Base de dades que es crea la primera vegada i que si existeix, no executa els scripts sql
+    Base de dades que es crea la primera vegada i que si existeix en iniciar el contenidor, no executa els scripts sql. Això ens permet no haver de recrear cada dia el contenidor sinó mantenir la consistència de la base de dades.
 
 * `PMA_HOST`="127.0.0.1"
 
@@ -103,7 +110,35 @@ En cas necessari podem executar el contenidor modificant els paràmetres del Doc
 
     Estableix la configuració del servidor de base de dades per a phpMyAdmin
 
-## Accés client
+Exemple de creació del contenidor amb altres paràmetres:
+
+```bash
+docker run -d --name damdaw-db -e MARIADB_ROOT_PASSWORD=123456 -e MARIADB_USER=uuuu -e MARIADB_PASSWORD=aaaa -p 8080:80 -p 3307:3306 damdaw-db-i:latest
+```
+
+En aquest contenidor tenim un usuari de consulta anomenat `uuuu` i la seva clau d'accés és `aaaa`. A més el password del DBA (*root*) és `123456` per tant podriem entrar a la consola *mysql* de la següent forma:
+
+```bash
+docker exec -ti damdaw-db mysql -u root -p123456
+```
+
+# Atureu el contenidor i torneu a iniciar
+
+Per aturar el contenidor podem utilitzar la comanda
+
+```bash
+docker stop damdaw-db
+```
+
+Una vegada aturat el contenidor, podem tornar a iniciar-lo executant la següent comanda des de qualsevol directori
+
+```bash
+docker start damdaw-db
+```
+
+El contenidor s'iniciarà amb els mateixos paràmetres amb què es va crear i les mateixes dades amb què es va aturar.
+
+# Accés client
 
 * phpMyAdmin (Navegador): http://localhost:8080 (o la IP del servidor).
 
@@ -143,24 +178,6 @@ S'han configurat diferents paràmetres, per defecte, per poder treballar:
 
 * `bind-address = 0.0.0.0`
 
-    Permet accedir directament desde qualsevol IP, ens va béper accedir a través de les eines client com ara *DBeaver*.
+    Permet accedir directament des de qualsevol IP, ens va bé per accedir a través de les eines client com ara *DBeaver*.
 
-## Paràmetres opcionals
 
-La comanda `envsubst` (Environment Variable Substitution) és la manera estàndard i neta de fer substitucions de variables d'entorn en fitxers de configuració. S'ha instal·lat a la secció `RUN` del `Dockerfile` (part del paquet `gettext`).
-
-### Ús i Execució
-
-Un cop hagis reconstruït la teva imatge (`docker build -t la_meva_imatge .`), pots iniciar el contenidor i sobreescriure el valor per defecte de la variable d'entorn:
-
-* Ús amb el valor per defecte:
-
-    ```bash
-    docker run -d -p 8080:80 -p 3307:3306 --name el_meu_contenidor la_meva_imatge
-    ```
-
-* Ús amb un valor modificat:
-
-    ```bash
-    docker run -d -p 8080:80 -p 3307:3306 -e MARIADB_USER=pepet --name el_meu_contenidor_custom la_meva_imatge
-    ```
