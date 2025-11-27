@@ -1,0 +1,7 @@
+# Fitxers de text genèrics
+* text=auto
+
+# Scripts que han de ser SEMPRE LF (Line Feed)
+/sql_init/* eol=lf
+*.sh eol=lf
+Dockerfile eol=lf
