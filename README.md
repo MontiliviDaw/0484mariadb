@@ -166,7 +166,7 @@ El contenidor s'iniciarà amb els mateixos paràmetres amb què es va crear i le
 
 ## Paràmetres del my.ini
 
-S'han configurat diferents paràmetres, per defecte, per poder treballar:
+S'han configurat diferents paràmetres, per defecte, per poder treballar com *"com ens agrada"*:
 
 * `sql_mode=NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION,ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES`
 
@@ -174,7 +174,7 @@ S'han configurat diferents paràmetres, per defecte, per poder treballar:
 
 * `lower_case_table_names=1`
 
-    Permet fer les consultes amb els noms de les taules en majúscules i trobar-les sempre ja que les emmagatzema sempre enminúscules i en fa la transformació. És el que sol fer-se en Windows. _**No sol ser el paràmetre per defecte en Linux**_.
+    Permet fer les consultes amb els noms de les taules en majúscules i trobar-les sempre ja que les emmagatzema sempre en minúscules i en fa la transformació. És el que sol fer-se en Windows. _**No sol ser el paràmetre per defecte en Linux**_.
 
 * `bind-address = 0.0.0.0`
 
